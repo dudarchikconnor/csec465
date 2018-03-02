@@ -1,0 +1,10 @@
+# DNS Enumeration Tool
+# Connor Dudarchik
+# Usage: enumdns input_file
+
+# Learning PS - Attempting to get loops and input reading working
+foreach($line in Get-Content .\hostnames.txt)
+{
+	Write-Host ($line)
+}
+# It works! Iterates through hostnames.txt and prints out each line.
