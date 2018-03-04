@@ -22,6 +22,25 @@ if "-" in portrange:
 else:
 	port = portrange
 
-def pScan(ip, port):
-	sock = socket.socket(AF_INET, socket.SOCK_STREAM)
+for i in ipAddr:
+	print("IP Addess is: ", i)
+	openPorts[]
+	for p in port:
+		openClose = pScan(i,p)
+		if openClose == True:
+			openPort.append(i)
+		else:
+			break
+	print "Open ports are: "
+	for x in openPort:
+		print(x, ", ")
 	
+def pScan(ip, port):
+	openPort
+	sock = socket.socket(AF_INET, socket.SOCK_STREAM)
+	try:
+		result = sock.connect(ip, port)
+		return True
+	except:
+		return False
+
