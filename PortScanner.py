@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# Zhi-Han Ling
 # Python Port Scanner
 
 import socket
@@ -13,5 +13,15 @@ if "-" in iprange:
 #elif "/" in iprange:
         
 else:
-        print("Enter Correct IP Range")
+	ipAddr = iprange
+	
+if "-" in portrange:
+	port = portrange.split("-")
+	print port
 
+else:
+	port = portrange
+
+def pScan(ip, port):
+	sock = socket.socket(AF_INET, socket.SOCK_STREAM)
+	
