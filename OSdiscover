@@ -3,12 +3,27 @@
 # Audit lab 3
 # tool to find an OS of a remote host
 
-if [ "$(uname)" == "Darwin" ]; then
-    echo "Mac"       
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    echo "Linux"  
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-    echo "Windows 32 bit"
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
-    echo "Windows 64 bit"
-fi
+for i in $(cat < "$1");do
+    if [-z "$i"];then
+        echo "empty"
+    else
+    TTLWin="ttl=128"
+    TTLFBSD="ttl=64"
+    TTLLin="ttl=255"
+    result=$(ping $i -c 1 )
+    echo $result
+
+    if [[$result = *"$TTLWin"*]];then
+        echo "Windows"
+
+    fi
+    if [[$result= *"$TTLLin"*];then
+        echo "Linux"
+
+    fi
+    if [[$result = *"$TTLFBSD"*]];then
+        echo "freeBSD"
+    fi
+    fi
+done
+
