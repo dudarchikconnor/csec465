@@ -6,7 +6,7 @@
 if(!($args[0] | Test-Path)) # Check if the file exists
 {
 	Write-Host ("Supplied file does not exist.")
-	Write-Host ("Usage: enumdns input_file")
+	Write-Host ("Usage: \.enumdns input_file")
 	exit
 }
 
@@ -33,6 +33,7 @@ foreach($line in Get-Content $args[0])
 	}
 	if($actualaddr -eq 1) # If successful in getting IP addresses
 	{
+		#Write-Host "$line finds $addresses`n"
 		$hostobj = New-Object psobject -Property @{ # Create a new object
 				HostName = $line
 				IPv4 = $addresses | Select-String -Pattern '(\d{1,3}\.){3}(\d{1,3})'
