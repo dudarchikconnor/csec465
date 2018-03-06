@@ -31,34 +31,34 @@ do
         done
 
         #check error variable from quad check
-        if [ "$badQuad" = "1" ];then
-                break
+        if [ "$badQuad" = "0" ];then
+
+                #ping the host and store the output
+                output=$(ping $i -c 1)
+
+                #iterate throught the output of the ping, searching for a matching TTL
+                for result in $output
+                do
+                        if [ "$result" = "$error" ];then
+                                break
+
+                        fi
+                        #check if TTL matches Windows Variable
+                        if [ "$result" = "$TTLWin" ];then
+                                echo $i is a Windows box
+
+                        fi
+                        #check if TTL matches Linux Variable
+                        if [ "$result" = "$TTLLin" ];then
+                                echo $i is a Linux box
+
+                        fi
+                        #Check if TTL matches freeBSD variable
+                        if [ "$result" = "$TTLFBSD" ];then
+                                echo $i is a freeBSD box
+                        fi
+                done
         fi
-        #ping the host and store the output
-        output=$(ping $i -c 1)
-
-        #iterate throught the output of the ping, searching for a matching TTL
-        for result in $output
-        do
-                if [ "$result" = "$error" ];then
-                        break
-
-                fi
-                #check if TTL matches Windows Variable
-                if [ "$result" = "$TTLWin" ];then
-                        echo $i is a Windows box
-
-                fi
-                #check if TTL matches Linux Variable
-                if [ "$result" = "$TTLLin" ];then
-                        echo $i is a Linux box
-
-                fi
-                #Check if TTL matches freeBSD variable
-                if [ "$result" = "$TTLFBSD" ];then
-                        echo $i is a freeBSD box
-                                      fi
-        done
     else
         #send error message
         echo $i is not a valid IP address
