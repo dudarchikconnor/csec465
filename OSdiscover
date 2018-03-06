@@ -1,4 +1,5 @@
 # !/bin/bash
+# James Clee
 # OSDiscovery
 # Audit lab 3
 # tool to find an OS of a remote host
@@ -11,25 +12,57 @@ do
     TTLFBSD="ttl=64" #FreeBSD
     TTLLin="ttl=255" #Linux
 
-    #ping the host and store teh output
-    output=$(ping $i -c 1)
+    #error checking variables
+    badQuad="0"
+    error="unknown" #string tp indicate bad ping
 
-    #iterate throught the output of the ping, searching for a matching TTL
-    for result in $output
-    do
-        #check if TTL matches Windows Variable
-        if [ "$result" = "$TTLWin" ];then
-                echo $i is a Windows box
+    #regex to see if the line is in the format of an IP
+    if [[ $i =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$  ]]; then
 
-            fi
-        #check if TTL matches Linux Variable
-        if [ "$result" = "$TTLLin" ];then
-                echo $i is a Linux box
+        #check the values of each quad, see if less then 256
+        for part in 1 2 3 4; do
+                if [ $(echo "$i" | cut -d. -f$part) -gt 255 ]; then
+                        #send error message and update error variable
+                        echo $i is not a valid ip address - quad greater then 255
+                        badQuad="1"
+                        break
 
+                fi
+        done
+
+        #check error variable from quad check
+        if [ "$badQuad" = "1" ];then
+                break
         fi
-        #Check if TTL matches freeBSD variable
-        if [ "$result" = "$TTLFBSD" ];then
-                echo $i is a freeBSD box
-        fi
-    done
+        #ping the host and store the output
+        output=$(ping $i -c 1)
+
+        #iterate throught the output of the ping, searching for a matching TTL
+        for result in $output
+        do
+                if [ "$result" = "$error" ];then
+                        break
+
+                fi
+                #check if TTL matches Windows Variable
+                if [ "$result" = "$TTLWin" ];then
+                        echo $i is a Windows box
+
+                fi
+                #check if TTL matches Linux Variable
+                if [ "$result" = "$TTLLin" ];then
+                        echo $i is a Linux box
+
+                fi
+                #Check if TTL matches freeBSD variable
+                if [ "$result" = "$TTLFBSD" ];then
+                        echo $i is a freeBSD box
+                                      fi
+        done
+    else
+        #send error message
+        echo $i is not a valid IP address
+    fi
+
+done
 
