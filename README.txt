@@ -17,3 +17,7 @@ Good examples:
 perl pingsweep.pl 172.217.10.70-172.217.15.75
 perl pingsweep.pl 172.217.0.0/16
 ----------------------------------------------------------------------------------------------
+To run the OSdiscover tool:
+python OSdiscover ip_file
+where ip_file is the list of ip addresses to check, each on their own line
+----------------------------------------------------------------------------------------------
