@@ -3,6 +3,11 @@
 # OSDiscovery
 # Audit lab 3
 # tool to find an OS of a remote host
+# arguments: give the name of a file with each IP address listed on a seperate line
+# ex:
+# 192.168.1.1
+# 8.8.8.8
+# etc.
 
 #iterate through the file of IP addresses
 for i in $(cat < "$1");
