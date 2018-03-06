@@ -1,29 +1,35 @@
 # !/bin/bash
-# OSDiscovery 
+# OSDiscovery
 # Audit lab 3
 # tool to find an OS of a remote host
 
-for i in $(cat < "$1");do
-    if [-z "$i"];then
-        echo "empty"
-    else
-    TTLWin="ttl=128"
-    TTLFBSD="ttl=64"
-    TTLLin="ttl=255"
-    result=$(ping $i -c 1 )
-    echo $result
+#iterate through the file of IP addresses
+for i in $(cat < "$1");
+do
+    #define variables for various TTLs
+    TTLWin="ttl=128" #Windows
+    TTLFBSD="ttl=64" #FreeBSD
+    TTLLin="ttl=255" #Linux
 
-    if [[$result = *"$TTLWin"*]];then
-        echo "Windows"
+    #ping the host and store teh output
+    output=$(ping $i -c 1)
 
-    fi
-    if [[$result= *"$TTLLin"*];then
-        echo "Linux"
+    #iterate throught the output of the ping, searching for a matching TTL
+    for result in $output
+    do
+        #check if TTL matches Windows Variable
+        if [ "$result" = "$TTLWin" ];then
+                echo $i is a Windows box
 
-    fi
-    if [[$result = *"$TTLFBSD"*]];then
-        echo "freeBSD"
-    fi
-    fi
-done
+            fi
+        #check if TTL matches Linux Variable
+        if [ "$result" = "$TTLLin" ];then
+                echo $i is a Linux box
+
+        fi
+        #Check if TTL matches freeBSD variable
+        if [ "$result" = "$TTLFBSD" ];then
+                echo $i is a freeBSD box
+        fi
+    done
 
