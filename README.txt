@@ -21,3 +21,10 @@ To run the OSdiscover tool:
 python OSdiscover ip_file
 where ip_file is the list of ip addresses to check, each on their own line
 ----------------------------------------------------------------------------------------------
+To run the Port Scanning tool:
+python PortScanner.py
+Then, input the IP range to scan, followed by the ports to be scanned.
+----------------------------------------------------------------------------------------------
+To run the Sniffer tool:
+python Sniffer.py
+Then, input the interface to scan, followed by filters (if any), TCP ports, and duration.
